@@ -40,14 +40,14 @@ class BinarySearchTree {
     const data = arguments[0];
     let next = this._root;
 
-    while (next?.data !== undefined || data !== next?.data) {// || next.data > data && next.left === null || next.data < data && next.right === null) {
-      if (next.data > data) {
-        next = next.left;
-      } else {
-        next = next.right;
-      }
-    }
-    return next.data === data;
+    // while (next?.data !== undefined || data !== next?.data) {// || next.data > data && next.left === null || next.data < data && next.right === null) {
+    //   if (next.data > data) {
+    //     next = next.left;
+    //   } else {
+    //     next = next.right;
+    //   }
+    // }
+    // return next.data === data;
   }
 
   find(/* data */) {
