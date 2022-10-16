@@ -20,18 +20,6 @@ class ListNode {
   }
 }
 
-function convertArrayToList(arr) {
-  return arr.reverse().reduce((acc, cur) => {
-    if (acc) {
-      const node = new ListNode(cur);
-      node.next = acc;
-      return node;
-    }
-
-    return new ListNode(cur);
-  }, null);
-}
-
 class Queue {
 
   list = {};
@@ -59,13 +47,6 @@ class Queue {
     return head;
   }
 }
-
-const q = new Queue();
-q.enqueue(1);
-q.enqueue(11);
-q.enqueue(21);
-q.enqueue(31);
-console.log(q.getUnderlyingList());
 
 module.exports = {
   Queue
