@@ -51,16 +51,39 @@ class BinarySearchTree {
   }
 
   find(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    const data = arguments[0];
+    let next = this._root;
+
+    while (next.data > data && next.left !== null || next.data < data && next.right !== null) {
+      if (next.data > data) {
+        next = next.left;
+      } else {
+        next = next.right;
+      }
+    }
+    return (next.data === data) ? next : null;
   }
 
   remove(/* data */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    const data = arguments[0];
+    let node = this.find(data);
+    if (node === null) {
+      return;
+    }
+    if (node?.left === undefined && node?.right === undefined) {
+      node = null;
+      return;
+    }
+    
+    let deleted = Object.assign({}, node);
+
+
   }
 
   min() {
+    if (this._root === null) {
+      return null;
+    }
     let next = this._root;
     while (next.left !== null) {
       next = next.left;
@@ -69,6 +92,9 @@ class BinarySearchTree {
   }
 
   max() {
+    if (this._root === null) {
+      return null;
+    }
     let next = this._root;
     while (next.right !== null) {
       next = next.right;
@@ -86,7 +112,8 @@ tree.add(6);
 tree.add(8);
 tree.add(31);
 tree.add(1);
-console.log(tree.has(7));
+tree.remove(14);
+console.log(tree.max());
 
 module.exports = {
   BinarySearchTree
