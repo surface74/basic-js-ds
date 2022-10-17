@@ -73,38 +73,34 @@ class BinarySearchTree {
   }
 
   remove(/* data */) {
-    const data = arguments[0];
-    let node = this.find(data);
+    let node = this.find(arguments[0]);
     if (node === null) {
       return;
     }
-
+    
     let parent = this.findParentNode(node);
+    
     if (parent === null) {//remove the root node
       this._root = null;
-      console.log(this.root());
-      console.log('node: ', node);
-      if (node?.left !== undefined) {
-        this.add(node.left);
+      
+      if (node.right !== null) {
+        this.addNode(node.right);
       }
-      if (node?.right !== undefined) {
-        this.add(node.rigth);
+      if (node.left !== null) {
+        this.addNode(node.left);
       }
     } else {
-      if (parent?.left?.data === node.data) {
+      if (parent.left?.data === node.data) {
         parent.left = null;
       } else {
         parent.right = null;
       }
 
-      if (node?.left === undefined && node?.right === undefined) {
-        node = null;
-        return;
-      }
       if (node.left !== null) {
         this.addNode(node.left);
       }
       if (node.right !== null) {
+
         this.addNode(node.right);
       }
     }
@@ -118,8 +114,8 @@ class BinarySearchTree {
     if (next.data === data) {
       return null;
     }
-    while (next?.left?.data !== data && next?.right?.data !== data) {
-      if (next?.data > data) {
+    while (next.left?.data !== data && next.right?.data !== data) {
+      if (next.data > data) {
         next = next.left;
       } else {
         next = next.right;
@@ -147,9 +143,9 @@ class BinarySearchTree {
       }
 
       if (next.data > data) {
-        next.left = Object.assign({}, node);
+        next.left = node;
       } else {
-        next.right = Object.assign({}, node);
+        next.right = node;
       }
     }
   }
@@ -177,22 +173,6 @@ class BinarySearchTree {
   }
 }
 
-let tree = new BinarySearchTree();
-tree.add(9);
-tree.add(14);
-tree.add(2);
-tree.add(6);
-tree.add(128);
-tree.add(8);
-tree.add(31);
-tree.add(54);
-tree.add(1);
-console.log('befor:', tree.root());
-tree.remove(14);
-tree.remove(8);
-// tree.remove(8);
-tree.remove(9);
-console.log('\nafter:', tree.root());
 module.exports = {
   BinarySearchTree
 };
