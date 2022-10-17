@@ -7,8 +7,9 @@ const { Node } = require('../extensions/list-tree.js');
 * using Node from extensions
 */
 class BinarySearchTree {
-  _root = null;
-
+  constructor() {
+    this._root = null;
+  }
   root() {
     return this._root;
   }
@@ -39,7 +40,9 @@ class BinarySearchTree {
   has(/* data */) {
     const data = arguments[0];
     let next = this._root;
-
+    if (next === null) {
+      return false;
+    }
     while (next.data > data && next.left !== null || next.data < data && next.right !== null) {
       if (next.data > data) {
         next = next.left;
@@ -53,12 +56,17 @@ class BinarySearchTree {
   find(/* data */) {
     const data = arguments[0];
     let next = this._root;
-
+    if (next === null) {
+      return null;
+    }
     while (next.data > data && next.left !== null || next.data < data && next.right !== null) {
       if (next.data > data) {
         next = next.left;
       } else {
         next = next.right;
+      }
+      if (next === null) {
+        return null;
       }
     }
     return (next.data === data) ? next : null;
@@ -70,14 +78,80 @@ class BinarySearchTree {
     if (node === null) {
       return;
     }
-    if (node?.left === undefined && node?.right === undefined) {
-      node = null;
-      return;
+
+    let parent = this.findParentNode(node);
+    if (parent === null) {//remove the root node
+      this._root = null;
+      console.log(this.root());
+      console.log('node: ', node);
+      if (node?.left !== undefined) {
+        this.add(node.left);
+      }
+      if (node?.right !== undefined) {
+        this.add(node.rigth);
+      }
+    } else {
+      if (parent?.left?.data === node.data) {
+        parent.left = null;
+      } else {
+        parent.right = null;
+      }
+
+      if (node?.left === undefined && node?.right === undefined) {
+        node = null;
+        return;
+      }
+      if (node.left !== null) {
+        this.addNode(node.left);
+      }
+      if (node.right !== null) {
+        this.addNode(node.right);
+      }
     }
-    
-    let deleted = Object.assign({}, node);
+  }
 
+  findParentNode(/* ListNode */) {
+    let node = arguments[0];
+    let data = node.data;
+    let next = this._root;
 
+    if (next.data === data) {
+      return null;
+    }
+    while (next?.left?.data !== data && next?.right?.data !== data) {
+      if (next?.data > data) {
+        next = next.left;
+      } else {
+        next = next.right;
+      }
+    }
+    return next;
+  }
+
+  addNode(/* ListNode */) {
+    let node = arguments[0];
+    let data = node.data;
+    if (this._root === null) {
+      this._root = node;
+    }
+    else {
+      let next = this._root;
+
+      while (next.data > data && next.left !== null ||
+        next.data < data && next.right !== null) {
+        if (next.data > data) {
+          next = next.left;
+        } else {
+          next = next.right;
+        }
+      }
+
+      if (next.data > data) {
+        next.left = Object.assign({}, node);
+      } else {
+        next.right = Object.assign({}, node);
+      }
+    }
   }
 
   min() {
@@ -106,15 +180,19 @@ class BinarySearchTree {
 let tree = new BinarySearchTree();
 tree.add(9);
 tree.add(14);
-tree.add(54);
 tree.add(2);
 tree.add(6);
+tree.add(128);
 tree.add(8);
 tree.add(31);
+tree.add(54);
 tree.add(1);
+console.log('befor:', tree.root());
 tree.remove(14);
-console.log(tree.max());
-
+tree.remove(8);
+// tree.remove(8);
+tree.remove(9);
+console.log('\nafter:', tree.root());
 module.exports = {
   BinarySearchTree
 };
